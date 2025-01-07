@@ -1,12 +1,16 @@
 package org.example.services.goods;
 
-import org.example.dto.request.goodsRequest.OrderItemRequest;
-import org.example.dto.response.goodsResponse.OrderItemResponse;
+import org.example.dto.request.goodsRequest.orderItemRequest.OrderItemCreateRequest;
+import org.example.dto.request.goodsRequest.orderItemRequest.OrderItemCancelRequest;
+import org.example.dto.request.goodsRequest.orderItemRequest.OrderItemUpdateRequest;
+import org.example.dto.response.goodsResponse.orderItemResponse.OrderItemCreateResponse;
+import org.example.dto.response.goodsResponse.orderItemResponse.OrderItemCancelResponse;
+import org.example.dto.response.goodsResponse.orderItemResponse.OrderItemUpdatesResponse;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface OrderItemService {
-    OrderItemResponse createOrder(OrderItemRequest orderItemRequest);
-    OrderItemResponse updateOrder(OrderItemRequest orderItemRequest);
-    OrderItemResponse buyerCancelOrder(OrderItemRequest orderItemRequest);
+    OrderItemCreateResponse createOrderItemToPurchase(OrderItemCreateRequest orderItemCreateRequest);
+    OrderItemUpdatesResponse updateOrderItem(OrderItemUpdateRequest orderItemUpdateRequest);
+    OrderItemCancelResponse buyerCancelOrderItem(OrderItemCancelRequest orderItemCancelRequest);
 }

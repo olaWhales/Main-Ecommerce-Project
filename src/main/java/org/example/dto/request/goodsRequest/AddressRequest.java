@@ -1,6 +1,7 @@
 package org.example.dto.request.goodsRequest;
 
 import lombok.Data;
+import org.example.data.model.goods.UserType;
 
 @Data
 public class AddressRequest {

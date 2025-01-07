@@ -1,5 +1,8 @@
 package org.example.data.model.goods;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.example.data.model.user.Buyer;
@@ -19,13 +22,12 @@ public class OrderItem {
     private LocalDate deliveryDate ;
     private LocalDateTime orderTime ;
     private Integer quantity ;
-    private BigDecimal price ;
+    private Double price ;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus ;
+    private Status status;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id" )
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address ;
 
     @ManyToOne
@@ -36,8 +38,11 @@ public class OrderItem {
     @JoinColumn (name = "orders_id")
     private Orders orders ;
 
-    @OneToMany(mappedBy = "orderItem", cascade = CascadeType.ALL , orphanRemoval = true)
-//    @JoinColumn (name = "orderItem_id")
-    private List<Product> products = new ArrayList<>();
-
+    @ManyToMany
+    @JoinTable(
+            name = "order_item_product",
+            joinColumns = @JoinColumn (name = "order_item_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private  List <Product> products  = new ArrayList<>();
 }

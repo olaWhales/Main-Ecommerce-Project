@@ -2,30 +2,19 @@ package org.example.data.model.user;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.example.data.model.goods.Orders;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import org.example.data.model.goods.Address;
 
 @Data
 @Entity
 public class Buyer {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id ;
+    private Long id;
 
-    private String address ;
-    private String firstName ;
-    private String lastName ;
-    private String contact ;
+    private String fullName;
     private String email ;
-    private LocalDate birthDate ;
-    private LocalDateTime dateCreated;
     private String password ;
+    private String contact ;
 
-//    // just add and  i can remove
-//    @OneToMany(mappedBy = "buyer")
-//    private List<Orders> orders = new ArrayList<>();
+
 }

@@ -1,22 +1,22 @@
 package org.example.data.model.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.example.data.model.goods.Address;
+import org.example.data.model.goods.Product;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Data
 @Entity
 public class Seller{
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id ;
+    private Long id;
 
-    private String firstName ;
-    private String lastName ;
+    private String fullName;
     private String contact ;
     private String email ;
     private LocalDate birthDate ;
@@ -24,4 +24,14 @@ public class Seller{
     private String password ;
     private String companyName ;
     private String businessAddress ;
+
+    @OneToMany(mappedBy = "seller" , cascade = CascadeType.ALL)
+    private List<Product> product;
+    @Override
+    public String toString() {
+        return "Seller{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                '}';
+    }
 }

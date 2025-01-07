@@ -1,0 +1,11 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class node0 as "package  org.example.data.model.goods" << package >>
+class node2 as "package  org.example.data.model.logistic" << package >>
+class node1 as "package  org.example.data.model.user" << package >>
+
+@enduml

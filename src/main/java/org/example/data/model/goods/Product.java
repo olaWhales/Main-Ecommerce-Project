@@ -17,7 +17,7 @@ public class Product {
 
     private String productName;
     private String productDescription;
-    private BigDecimal productPrice;
+    private Double productPrice;
     private Integer productQuantity;
 
     @ManyToOne
@@ -27,8 +27,4 @@ public class Product {
     @ManyToOne
     @JoinColumn(name  = "orderItem_id")
     private OrderItem orderItem;
-
-    @ManyToOne
-    @JoinColumn(name = "buyer_id")
-    private Buyer buyer ;
 }

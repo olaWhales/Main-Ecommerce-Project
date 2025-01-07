@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class SellerResponse {
-    private String message;
+    private Long id ;
+    private String message ;
 }
