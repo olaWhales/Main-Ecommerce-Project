@@ -1,6 +1,5 @@
 package org.example.services.usersRegistration;
 
-import org.example.data.model.goods.Address;
 import org.example.data.model.user.Driver;
 import org.example.data.repositories.users.DriverRepository;
 //import org.example.dto.request.usersRequest.VehicleRequest;
@@ -11,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static org.example.Authentication.isDriverDetailsOfNullValue;
 
 @Service
 public class DriverServiceImp implements DriverService {
@@ -27,9 +28,10 @@ public class DriverServiceImp implements DriverService {
         if(driver.isPresent()){
             throw new IllegalArgumentException("User already exist, please login");
         }
+        isDriverDetailsOfNullValue(driverRequest);
 
         Driver drivers = new Driver();
-        drivers.setFullName(driverRequest.getFullName());
+        drivers.setFirstName(driverRequest.getFirstName());
         drivers.setContact(driverRequest.getContact());
         drivers.setEmail(driverRequest.getEmail());
         drivers.setBirthDate(driverRequest.getBirthDate());
@@ -37,8 +39,9 @@ public class DriverServiceImp implements DriverService {
         drivers.setDriverLicenseNumber(driverRequest.getDriverLicenseNumber());
         driverRepository.save(drivers);
         DriverResponse driverResponse = new DriverResponse();
-        Long driverId = drivers.getId();
-        driverResponse.setMessage("You have successfully registered"  + driverId);
+        driverResponse.setDriverId(drivers.getId());
+        driverResponse.setMessage("You have successfully registered" );
+
         return driverResponse;
     }
 

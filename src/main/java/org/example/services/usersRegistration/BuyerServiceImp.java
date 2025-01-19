@@ -1,6 +1,6 @@
 package org.example.services.usersRegistration;
 
-import org.example.data.model.goods.Address;
+import org.example.Authentication;
 import org.example.data.model.user.Buyer;
 import org.example.data.repositories.users.BuyerRepository;
 import org.example.dto.request.usersRequest.BuyerRequest;
@@ -11,10 +11,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static org.example.Authentication.isBuyerDetailsOfNullValue;
+
 @Service
 public class BuyerServiceImp implements BuyerService {
     @Autowired
     private BuyerRepository buyerRepository;
+    @Autowired
+    private Authentication authentication;
 
     @Override
     public BuyerRepsonse buyerRegister(BuyerRequest buyerRequest) {
@@ -22,9 +26,12 @@ public class BuyerServiceImp implements BuyerService {
         if(buyer.isPresent()){
             throw new IllegalArgumentException("buyer already exist please login");
         }
+        isBuyerDetailsOfNullValue(buyerRequest);
+
         BuyerRepsonse buyerRepsonse = new BuyerRepsonse();
         Buyer buyers = new Buyer();
-        buyers.setFullName(buyerRequest.getFullName());
+        buyers.setFirstName(buyerRequest.getFirstName());
+        buyers.setLastName(buyerRequest.getLastName());
         buyers.setEmail(buyerRequest.getEmail());
         buyers.setPassword(buyerRequest.getPassword());
         buyers.setContact(buyerRequest.getContact());

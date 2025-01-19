@@ -1,6 +1,6 @@
 package org.example.services.usersRegistration;
 
-import org.example.data.model.goods.Address;
+
 import org.example.data.model.user.Seller;
 import org.example.data.repositories.users.SellerRepository;
 import org.example.dto.request.usersRequest.SellerRequest;
@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static org.example.Authentication.isSellerDetailsOfNullValue;
+
 @Service
 public class SellerServiceImp implements SellerService {
     @Autowired
@@ -18,31 +20,33 @@ public class SellerServiceImp implements SellerService {
 
     @Override
     public SellerResponse sellerRegister(SellerRequest sellerRequest) {
-        Optional<Seller> sellers = sellerRepository.findByEmail(sellerRequest.getEmail());
-        if(sellers.isPresent()){
-            throw new IllegalArgumentException("User already exists, please login");
+        Optional<Seller> seller = sellerRepository.findByEmail(sellerRequest.getEmail());
+        if(seller.isPresent()){
+            throw new IllegalArgumentException("Seller already exists");
         }
+        isSellerDetailsOfNullValue(sellerRequest);
 
+        Seller sellers = new Seller();
+        sellers.setFirstName(sellerRequest.getFirstName());
+        sellers.setLastName(sellerRequest.getLastName());
+        sellers.setContact(sellerRequest.getContact());
+        sellers.setEmail(sellerRequest.getEmail());
+        sellers.setCompanyName(sellerRequest.getCompanyName());
+        sellers.setPassword(sellerRequest.getPassword());
+        sellers.setBusinessAddress(sellerRequest.getBusinessAddress());
+        sellerRepository.save(sellers);
         SellerResponse sellerResponse = new SellerResponse();
-        Seller seller = new Seller();
-        seller.setFullName(sellerRequest.getFullName());
-        seller.setContact(sellerRequest.getContact());
-        seller.setEmail(sellerRequest.getEmail());
-        seller.setCompanyName(sellerRequest.getCompanyName());
-        seller.setPassword(sellerRequest.getPassword());
-        seller.setBusinessAddress(sellerRequest.getBusinessAddress());
-        sellerRepository.save(seller);
-        sellerResponse.setId(seller.getId());
-        sellerResponse.setMessage( "Register successful");
+        sellerResponse.setId(sellers.getId());
+        sellerResponse.setMessage("Register successful");
         return sellerResponse;
     }
 
     @Override
     public LoginResponse sellerLogin(String Email, String Password) {
         LoginResponse loginResponse = new LoginResponse();
-        if(sellerRepository.findByEmailAndPassword(Email , Password).isPresent()){
+        if (sellerRepository.findByEmailAndPassword(Email, Password).isPresent()) {
             loginResponse.setMessage("Login successful");
-        }else{
+        } else {
             loginResponse.setMessage("Login failed");
         }
         return loginResponse;
